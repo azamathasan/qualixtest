@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import type { Request } from './types'
 
 export const useRequestStore = defineStore('request', () => {
-  const requests = ref<Request[]>([
+  const mockData: Request[] = [
     {
       id: 1,
       title: 'Заявка 1',
@@ -22,7 +22,15 @@ export const useRequestStore = defineStore('request', () => {
       description: 'Описание заявки 3',
       createdAt: '03.01.2026'
     }
-  ])
+  ]
+
+  const savedData = localStorage.getItem('qualixtest_requests')
+
+  const requests = ref(savedData ? JSON.parse(savedData) : mockData)
+
+  watch(requests, (newVal) => {
+    localStorage.setItem('qualixtest_requests', JSON.stringify(newVal))
+  }, { deep: true })
 
   const generateNextId = (): number => {
     if (requests.value.length === 0) return 1

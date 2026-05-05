@@ -9,21 +9,26 @@ const { requests } = storeToRefs(requestStore);
 
 </script>
 <template>
-    <table>
-        <thead>
-            <tr>
-                <td>Заголовок</td>
-                <td>Дата создания</td>
-            </tr>
-        </thead>
-        <tbody>
-            <RequestCard
-            v-for="item in requests"
-            :key="item.id"
-            :data="item"
-            ></RequestCard>
-        </tbody>
-    </table>
+    <div v-if="requests.length">
+        <table>
+            <thead>
+                <tr>
+                    <td>Заголовок</td>
+                    <td>Дата создания</td>
+                </tr>
+            </thead>
+            <tbody>
+                <RequestCard
+                v-for="item in requests"
+                :key="item.id"
+                :data="item"
+                ></RequestCard>
+            </tbody>
+        </table>
+    </div>
+    <div v-else>
+        <span>Нет данных</span>
+    </div>
 </template>
 <style lang="scss">
 .container {

@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { Request } from '@/entities/request';
 import { useRequestStore } from '@/entities/request';
+import RequestForm from '@/entities/request/ui/RequestForm.vue';
 import { ref } from 'vue';
 
 const props = defineProps<{
@@ -19,17 +20,22 @@ const handleSave = () => {
     <button command="show-modal" commandfor="my-dialog">Редактировать заявку</button>
 
     <dialog id="my-dialog">
-        <div class="dialog-input-list">
-            <div>
-                <span>Заголовок </span>
-                <input v-model="editedRequest.title" type="text">
-            </div>
-            <div>
-                <span>Описание </span>
-                <input v-model="editedRequest.description" type="text">
-            </div>
+        <RequestForm v-model:title="editedRequest.title" v-model:description="editedRequest.description"/>
+        <div class="buttons-container">
+            <button commandfor="my-dialog" command="close">Закрыть</button>
+            <button commandfor="my-dialog" command="close" @click="handleSave">Сохранить</button>
         </div>
-        <button commandfor="my-dialog" command="close">Закрыть</button>
-        <button commandfor="my-dialog" command="close" @click="handleSave">Сохранить</button>
     </dialog>
 </template>
+
+<style lang="scss">
+button {
+    padding: 5px;
+}
+
+.buttons-container {
+    margin-top: 40px;
+    display: flex;
+    gap: 20px;
+}
+</style>
