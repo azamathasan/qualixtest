@@ -3,7 +3,8 @@ import { ref } from 'vue';
 import type { Request } from '@/entities/request';
 import { useRequestStore } from '@/entities/request';
 import { storeToRefs } from 'pinia';
-import router from '@/app/router/index.ts';
+import router from '@/app/router/index';
+import RequestForm from '@/entities/request/ui/RequestForm.vue';
 
 
 const requestStore = useRequestStore();
@@ -18,7 +19,11 @@ const editedRequest = ref<Request>({
 const handleSave = () => {
     if(editedRequest.value.title.length) {
         const newId: number = requestStore.addRequest(editedRequest.value)
-        router.push({ name: 'request-details', params: { id: newId } })
+        router.push({
+            name: 'request-details',
+            params: { id: newId },
+            query: { success: 'true' }
+        })
     }
     else
         alert('Заполните обязательное поле "Заголовок"')
@@ -32,14 +37,7 @@ const handleCancel = () => {
 
 <template>
     <div class="create-content">
-        <div>
-            <span>Заголовок* </span>
-            <input v-model="editedRequest.title" type="text">
-        </div>
-        <div>
-            <span>Описание </span>
-            <input v-model="editedRequest.description" type="text">
-        </div>
+        <RequestForm v-model:title="editedRequest.title" v-model:description="editedRequest.description"/>
     </div>
     <div class="buttons-container">
         <button @click="handleSave">Сохранить</button>

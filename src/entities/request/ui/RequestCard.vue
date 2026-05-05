@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import router from '@/app/router/index.ts';
+import router from '@/app/router/index';
 import type { Request } from '../model/types';
 
 interface Props {
